@@ -42,21 +42,21 @@ int main() {
     std::ofstream tableTimes("timetests.csv", std::ofstream::out | std::ofstream::trunc);
     std::ofstream tableValues("value.csv", std::ofstream::out | std::ofstream::trunc);
 
-    vector<float>  floatInputVector(ARR_SIZE);
+    vector<float> floatInputVector(ARR_SIZE);
     tableValues << "Float (init)" << ';';
     for (std::size_t i = 0; i < ARR_SIZE; i++) {
         floatInputVector[i] = dist(rd);
         if (i < 1000) tableValues << floatInputVector[i] << ';';
     }
     tableValues << std::endl;
-        for (std::size_t i = 4; i <= 128; i *= 2) {
+    for (std::size_t i = 4; i <= 128; i *= 2) {
         Window<float> window(i);
         vector<float> floatOutputVector(ARR_SIZE);
         start = steady_clock::now();
         for (std::size_t j = 0; j < ARR_SIZE; j++) floatOutputVector[i] = window.next(floatInputVector[i]);
         end = steady_clock::now();
         tableTimes << "Float (" << i << ")" << ';'
-                   << ARR_SIZE / steady_clock::duration(end - start).count()
+                   << ARR_SIZE / duration<double>(end - start).count()
                    << std::endl;
         tableValues << "Float (" << i << ")" << ';';
         for (std::size_t j = 0; j < 1000; j++) tableValues << floatOutputVector[i] << ';';
@@ -77,7 +77,7 @@ int main() {
         for (std::size_t j = 0; j < ARR_SIZE; j++) doubleOutputVector[i] = window.next(floatInputVector[i]);
         end = steady_clock::now();
         tableTimes << "Double (" << i << ")" << ';'
-                   << ARR_SIZE / steady_clock::duration(end - start).count()
+                   << ARR_SIZE / duration<double>(end - start).count()
                    << std::endl;
         tableValues << "Double (" << i << ")" << ';';
         for (std::size_t j = 0; j < 1000; j++) tableValues << doubleOutputVector[i] << ';';
