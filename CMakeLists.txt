@@ -3,7 +3,6 @@ project(stc)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(MY_COMPILE_FLAGS "-O")
-add_definitions(${MYCOMPILE_FLAGS})
+add_compile_options( -O0)
 
 add_executable(stc main.cpp)
