@@ -48,42 +48,52 @@ int main() {
     tableValues << std::endl;
 
     vector<float> floatInputVector(ARR_SIZE);
+
     tableValues << "Float (init)" << ',';
     for (std::size_t i = 0; i < ARR_SIZE; i++) {
         floatInputVector[i] = dist(rd);
         if (i < 1000) tableValues << floatInputVector[i] << ',';
     }
     tableValues << std::endl;
+
     for (std::size_t i = 4; i <= 128; i *= 2) {
         Window<float> window(i);
         vector<float> floatOutputVector(ARR_SIZE);
+
         start = steady_clock::now();
         for (std::size_t j = 0; j < ARR_SIZE; j++) floatOutputVector[j] = window.next(floatInputVector[j]);
         end = steady_clock::now();
+
         tableTimes << "Float (" << i << ")" << ','
                    << ARR_SIZE / duration<double>(end - start).count()
                    << std::endl;
+
         tableValues << "Float (" << i << ")" << ',';
         for (std::size_t j = 0; j < 1000; j++) tableValues << floatOutputVector[j] << ',';
         tableValues << std::endl;
     }
 
     vector<double> doubleInputVector(ARR_SIZE);
+
     tableValues << "Double (init)" << ',';
     for (std::size_t i = 0; i < ARR_SIZE; i++) {
         doubleInputVector[i] = dist(rd);
         if (i < 1000) tableValues << doubleInputVector[i] << ',';
     }
+
     tableValues << std::endl;
     for (std::size_t i = 4; i <= 128; i *= 2) {
         Window<double> window(i);
         vector<double> doubleOutputVector(ARR_SIZE);
+
         start = steady_clock::now();
         for (std::size_t j = 0; j < ARR_SIZE; j++) doubleOutputVector[j] = window.next(floatInputVector[j]);
         end = steady_clock::now();
+
         tableTimes << "Double (" << i << ")" << ','
                    << ARR_SIZE / duration<double>(end - start).count()
                    << std::endl;
+
         tableValues << "Double (" << i << ")" << ',';
         for (std::size_t j = 0; j < 1000; j++) tableValues << doubleOutputVector[j] << ',';
         tableValues << std::endl;
